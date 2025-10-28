@@ -46,19 +46,35 @@ $free = $_SESSION['free'] ?? false;
             <button type="submit" name="submit" class="btn btn-primary w-100">送出</button>
           </form>
 
-          <?php
-          if (isset($_POST['submit'])) {
-              $selectedOptions = $_POST['options'] ?? [];
+<?php
+if (isset($_POST['submit'])) {
+    $selectedOptions = $_POST['options'] ?? [];
 
-           
-              $total = $free ? 0 : array_sum($selectedOptions);
 
-              echo "<h5 class='mt-3'>報名資訊：</h5>";
-              echo "身份: " . ($role === 'teacher' ? '教職員' : '學生') . "<br/>";
-              echo "選擇項目: " . (!empty($selectedOptions) ? implode(', ', $selectedOptions) . " 元" : "無") . "<br/>";
-              echo "總費用: <strong>$total 元</strong>";
-          }
-          ?>
+    $total = 0;
+    if (!$free && !in_array($role, ['M', 'T'])) {
+        $total = array_sum($selectedOptions);
+    }
+
+    echo "<h5 class='mt-3'>報名資訊：</h5>";
+
+
+    if ($role === 'M') {
+        $identity = "管理員";
+    } elseif ($role === 'T') {
+        $identity = "老師";
+    } elseif ($role === 'teacher') {
+        $identity = "教職員";
+    } else {
+        $identity = "學生";
+    }
+
+    echo "身份: " . $identity . "<br/>";
+    echo "選擇項目: " . (!empty($selectedOptions) ? implode(', ', $selectedOptions) . " 元" : "無") . "<br/>";
+    echo "總費用: <strong>$total 元</strong>";
+}
+?>
+
           
         </div>
       </div>
@@ -67,4 +83,5 @@ $free = $_SESSION['free'] ?? false;
 </div>
 
 <?php include('footer.php'); ?>
+
 

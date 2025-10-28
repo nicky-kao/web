@@ -29,19 +29,33 @@ $free = $_SESSION['free'] ?? false;
           <button type="submit" name="submit" class="btn btn-primary w-100 mt-3">送出</button>
         </form>
 
-        <?php
-        
-        if (isset($_POST['submit'])) {
-            $dinner = isset($_POST['dinner']) ? (int)$_POST['dinner'] : 0;
-            $fee = $free ? 0 : $dinner;
+<?php
+if (isset($_POST['submit'])) {
+    $dinner = isset($_POST['dinner']) ? (int)$_POST['dinner'] : 0;
 
-            echo "<h5 class='mt-3'>報名資訊：</h5>";
-          
-            echo "身份: " . ($role === 'teacher' ? '教職員' : '學生') . "<br/>";
-            echo "晚餐: " . ($dinner ? "訂晚餐 ($dinner 元)" : "不訂晚餐") . "<br/>";
-            echo "總費用: <strong>$fee 元</strong>";
-        }
-        ?>
+    $fee = 0;
+    if (!$free && !in_array($role, ['M', 'T'])) {
+        $fee = $dinner;
+    }
+
+    echo "<h5 class='mt-3'>報名資訊：</h5>";
+
+
+    if ($role === 'M') {
+        $identity = "管理員";
+    } elseif ($role === 'T') {
+        $identity = "老師";
+    } elseif ($role === 'teacher') {
+        $identity = "教職員";
+    } else {
+        $identity = "學生";
+    }
+
+    echo "身份: " . $identity . "<br/>";
+    echo "晚餐: " . ($dinner ? "訂晚餐 ($dinner 元)" : "不訂晚餐") . "<br/>";
+    echo "總費用: <strong>$fee 元</strong>";
+}
+?>
 
       </div>
     </div>

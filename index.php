@@ -25,6 +25,18 @@ try {
                 <th>報名連結</th>
             </tr>
         </thead>
+        
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    
+    <div class="d-flex ms-auto">
+      <?php if(isset($_SESSION['role']) && $_SESSION['role']=='M'): ?>
+        <a href="activity.php" class="btn btn-primary">活動管理</a>
+      <?php endif; ?>
+    </div>
+  </div>
+</nav>
+
         <tbody>
             <?php while($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
@@ -61,5 +73,6 @@ $(document).ready(function() {
 }
 require_once "footer.php";
 ?>
+
 
 
